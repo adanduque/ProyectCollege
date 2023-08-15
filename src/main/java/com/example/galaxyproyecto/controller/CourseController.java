@@ -1,6 +1,7 @@
 package com.example.galaxyproyecto.controller;
 
 import com.example.galaxyproyecto.model.Course;
+import com.example.galaxyproyecto.model.Exam;
 import com.example.galaxyproyecto.model.Teacher;
 import com.example.galaxyproyecto.model.modelassembler.CourseModelAssembler;
 import com.example.galaxyproyecto.model.modelassembler.TeacherModelAssembler;
@@ -19,6 +20,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+//@CrossOrigin(origins = "http://localhost:8080")
+//cambio desde gitkraken
+
 @RequestMapping(path="/v1/courses",
         produces= {MediaType.APPLICATION_JSON_VALUE}
         /*consumes={MediaType.APPLICATION_JSON_VALUE}*/)
@@ -30,6 +34,7 @@ public class CourseController {
 
     @Autowired
     CourseModelAssembler courseModelAssembler;
+  //  @CrossOrigin(origins = "http://localhost:8080")
     @GetMapping("/find-all")
     public CollectionModel<EntityModel<Course>> findAll() {
         List<Course> courses= courseService.findAll();
@@ -82,20 +87,20 @@ public class CourseController {
     }
 
 
-    @PostMapping(/*path="/add", consumes={MediaType.APPLICATION_JSON_VALUE}*/)
-    public Course add(@RequestBody Course course) {
-        return courseService.add(course);
+    @PostMapping
+    public EntityModel<Course> add(@RequestBody Course course) {
+        return courseModelAssembler.toModel(courseService.add(course));
     }
 
     @PutMapping("/{id}")
-    public Course update(@PathVariable("id") Integer id, @RequestBody Course course) {
+    public EntityModel<Course> update(@PathVariable("id") Integer id, @RequestBody Course course) {
         course.setIdCourse(id);
-        return courseService.update(course);
+        return courseModelAssembler.toModel(courseService.update(course));
     }
 
     @DeleteMapping("/{id}")
-    public Course delete(@PathVariable("id") Integer id) {
-        return courseService.delete(id);
+    public EntityModel<Course> delete(@PathVariable("id") Integer id) {
+        return courseModelAssembler.toModel(courseService.delete(id));
     }
 
 }

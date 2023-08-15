@@ -1,6 +1,7 @@
 package com.example.galaxyproyecto.controller;
 import java.util.List;
 
+import com.example.galaxyproyecto.model.Student;
 import com.example.galaxyproyecto.model.Teacher;
 import com.example.galaxyproyecto.model.modelassembler.TeacherModelAssembler;
 import com.example.galaxyproyecto.service.ITeacherService;
@@ -92,20 +93,19 @@ public class TeacherController {
     }
 
 
-    @PostMapping(/*path="/add", consumes={MediaType.APPLICATION_JSON_VALUE}*/)
-    public Teacher add(@RequestBody Teacher teacher) {
-        return teacherService.add(teacher);
+    @PostMapping
+    public EntityModel<Teacher> add(@RequestBody Teacher teacher) {
+        return teacherModelAssembler.toModel(teacherService.add(teacher));
     }
 
     @PutMapping("/{id}")
-    public Teacher update(@PathVariable("id") Integer id, @RequestBody Teacher teacher) {
+    public EntityModel<Teacher> update(@PathVariable("id") Integer id, @RequestBody Teacher teacher) {
         teacher.setIdTeacher(id);
-        return teacherService.update(teacher);
+        return teacherModelAssembler.toModel(teacherService.update(teacher));
     }
 
     @DeleteMapping("/{id}")
-    public Teacher delete(@PathVariable("id") Integer id) {
-        return teacherService.delete(id);
+    public EntityModel<Teacher> delete(@PathVariable("id") Integer id) {
+        return teacherModelAssembler.toModel(teacherService.delete(id));
     }
-
 }

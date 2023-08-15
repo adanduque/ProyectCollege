@@ -1,6 +1,7 @@
 package com.example.galaxyproyecto.controller;
 
 import com.example.galaxyproyecto.model.Course;
+import com.example.galaxyproyecto.model.Schedule;
 import com.example.galaxyproyecto.model.Student;
 import com.example.galaxyproyecto.model.Teacher;
 import com.example.galaxyproyecto.model.modelassembler.StudentModelAssembler;
@@ -47,6 +48,7 @@ public class StudentController {
         return  studentModelAssembler.toModel(student);
 
     }
+
     @GetMapping("/by-nombre")
     public List<Student> findByLikeName(@RequestParam(name="name",defaultValue="") String name) {
         return studentService.findByLikeName(Student.builder().name(name).build());
@@ -87,24 +89,20 @@ public class StudentController {
     }
 
 
-    @PostMapping(/*path="/add", consumes={MediaType.APPLICATION_JSON_VALUE}*/)
-    public ResponseEntity<Student> add(@RequestBody Student student) {
-
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(student.getIdStudent()).toUri();
-        studentService.add(student);
-        return ResponseEntity.created(location).build();
-
+    @PostMapping
+    public EntityModel<Student> add(@RequestBody Student student) {
+        return studentModelAssembler.toModel(studentService.add(student));
     }
 
     @PutMapping("/{id}")
-    public Student update(@PathVariable("id") Integer id, @RequestBody Student student) {
+    public EntityModel<Student> update(@PathVariable("id") Integer id, @RequestBody Student student) {
         student.setIdStudent(id);
-        return studentService.update(student);
+        return studentModelAssembler.toModel(studentService.update(student));
     }
 
     @DeleteMapping("/{id}")
-    public Student delete(@PathVariable("id") Integer id) {
-        return studentService.delete(id);
+    public EntityModel<Student> delete(@PathVariable("id") Integer id) {
+        return studentModelAssembler.toModel(studentService.delete(id));
     }
 
 }

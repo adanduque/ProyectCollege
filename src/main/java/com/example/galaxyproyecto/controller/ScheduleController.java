@@ -2,6 +2,7 @@ package com.example.galaxyproyecto.controller;
 
 import com.example.galaxyproyecto.model.Schedule;
 import com.example.galaxyproyecto.model.Student;
+import com.example.galaxyproyecto.model.Schedule;
 import com.example.galaxyproyecto.model.modelassembler.ScheduleModelAssembler;
 import com.example.galaxyproyecto.service.IScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,20 +52,20 @@ public class ScheduleController {
     }
 
 
-    @PostMapping(/*path="/add", consumes={MediaType.APPLICATION_JSON_VALUE}*/)
-    public Schedule add(@RequestBody Schedule schedule) {
-        return scheduleService.add(schedule);
+    @PostMapping
+    public EntityModel<Schedule> add(@RequestBody Schedule schedule) {
+        return scheduleModelAssembler.toModel(scheduleService.add(schedule));
     }
 
     @PutMapping("/{id}")
-    public Schedule update(@PathVariable("id") Integer id, @RequestBody Schedule schedule) {
+    public EntityModel<Schedule> update(@PathVariable("id") Integer id, @RequestBody Schedule schedule) {
         schedule.setIdSchedule(id);
-        return scheduleService.update(schedule);
+        return scheduleModelAssembler.toModel(scheduleService.update(schedule));
     }
 
     @DeleteMapping("/{id}")
-    public Schedule delete(@PathVariable("id") Integer id) {
-        return scheduleService.delete(id);
+    public EntityModel<Schedule> delete(@PathVariable("id") Integer id) {
+        return scheduleModelAssembler.toModel(scheduleService.delete(id));
     }
 
 }

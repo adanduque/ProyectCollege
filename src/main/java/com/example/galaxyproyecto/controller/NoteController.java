@@ -1,6 +1,7 @@
 package com.example.galaxyproyecto.controller;
 
 import com.example.galaxyproyecto.model.Note;
+import com.example.galaxyproyecto.model.Note;
 import com.example.galaxyproyecto.model.modelassembler.NoteModelAssembler;
 import com.example.galaxyproyecto.service.INoteService;
 
@@ -46,19 +47,20 @@ public class NoteController {
     }
 
 
-    @PostMapping(/*path="/add", consumes={MediaType.APPLICATION_JSON_VALUE}*/)
-    public Note add(@RequestBody Note note) {
-        return noteService.add(note);
+    @PostMapping
+    public EntityModel<Note> add(@RequestBody Note note) {
+        return noteModelAssembler.toModel(noteService.add(note));
     }
 
     @PutMapping("/{id}")
-    public Note update(@PathVariable("id") Integer id, @RequestBody Note note) {
+    public EntityModel<Note> update(@PathVariable("id") Integer id, @RequestBody Note note) {
         note.setIdNote(id);
-        return noteService.update(note);
+        return noteModelAssembler.toModel(noteService.update(note));
     }
 
     @DeleteMapping("/{id}")
-    public Note delete(@PathVariable("id") Integer id) {
-        return noteService.delete(id);
+    public EntityModel<Note> delete(@PathVariable("id") Integer id) {
+        return noteModelAssembler.toModel(noteService.delete(id));
     }
-    }
+
+}

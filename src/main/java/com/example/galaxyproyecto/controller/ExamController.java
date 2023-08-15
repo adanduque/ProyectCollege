@@ -1,6 +1,7 @@
 package com.example.galaxyproyecto.controller;
 
 import com.example.galaxyproyecto.model.Exam;
+import com.example.galaxyproyecto.model.Exam;
 import com.example.galaxyproyecto.model.modelassembler.ExamModelAssembler;
 import com.example.galaxyproyecto.service.IExamService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,21 +79,20 @@ public class ExamController {
     }
 
 
-    @PostMapping(/*path="/add", consumes={MediaType.APPLICATION_JSON_VALUE}*/)
-    public Exam add(@RequestBody Exam exam) {
-        return examService.add(exam);
+    @PostMapping
+    public EntityModel<Exam> add(@RequestBody Exam exam) {
+        return examModelAssembler.toModel(examService.add(exam));
     }
 
     @PutMapping("/{id}")
-    public Exam update(@PathVariable("id") Integer id, @RequestBody Exam exam) {
+    public EntityModel<Exam> update(@PathVariable("id") Integer id, @RequestBody Exam exam) {
         exam.setIdExam(id);
-        return examService.update(exam);
+        return examModelAssembler.toModel(examService.update(exam));
     }
 
     @DeleteMapping("/{id}")
-    public Exam delete(@PathVariable("id") Integer id) {
-        return examService.delete(id);
+    public EntityModel<Exam> delete(@PathVariable("id") Integer id) {
+        return examModelAssembler.toModel(examService.delete(id));
     }
-
 
 }

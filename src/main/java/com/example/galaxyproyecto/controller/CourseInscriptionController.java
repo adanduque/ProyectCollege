@@ -1,6 +1,7 @@
 package com.example.galaxyproyecto.controller;
 
 import com.example.galaxyproyecto.model.CourseInscription;
+import com.example.galaxyproyecto.model.CourseInscription;
 import com.example.galaxyproyecto.model.modelassembler.CourseInscriptionModelAssembler;
 import com.example.galaxyproyecto.service.ICourseInscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,23 +47,21 @@ public class CourseInscriptionController {
         return null;//productoService.findById(id).orElse(null);
     }
 
-
-
-
-    @PostMapping(/*path="/add", consumes={MediaType.APPLICATION_JSON_VALUE}*/)
-    public CourseInscription add(@RequestBody CourseInscription courseInscription) {
-        return courseInscriptionService.add(courseInscription);
+    @PostMapping
+    public EntityModel<CourseInscription> add(@RequestBody CourseInscription courseInscription) {
+        return courseInscriptionModelAssembler.toModel(courseInscriptionService.add(courseInscription));
     }
 
     @PutMapping("/{id}")
-    public CourseInscription update(@PathVariable("id") Integer id, @RequestBody CourseInscription courseInscription) {
+    public EntityModel<CourseInscription> update(@PathVariable("id") Integer id, @RequestBody CourseInscription courseInscription) {
         courseInscription.setIdCourseInscription(id);
-        return courseInscriptionService.update(courseInscription);
+        return courseInscriptionModelAssembler.toModel(courseInscriptionService.update(courseInscription));
     }
 
     @DeleteMapping("/{id}")
-    public CourseInscription delete(@PathVariable("id") Integer id) {
-        return courseInscriptionService.delete(id);
+    public EntityModel<CourseInscription> delete(@PathVariable("id") Integer id) {
+        return courseInscriptionModelAssembler.toModel(courseInscriptionService.delete(id));
     }
+
 
 }

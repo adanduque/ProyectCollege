@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -24,9 +25,9 @@ public class CourseInscription {
     @JoinColumn(name = "id_programming", nullable = false, foreignKey = @ForeignKey(name = "FK_COURSE_INSCRIPTIONS_PROGRAMMING"))
     private Programming programming;
 
-    @ManyToOne
+    @ManyToMany
     @JoinColumn(name = "id_student", nullable = false, foreignKey = @ForeignKey(name = "FK_COURSE_INSCRIPTIONS_STUDENT"))
-    private Student student;
+    private List<Student> studentsList;
 
     @Column(nullable = false)
     private LocalDateTime inscriptionDate;

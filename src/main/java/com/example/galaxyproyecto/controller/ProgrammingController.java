@@ -2,6 +2,7 @@ package com.example.galaxyproyecto.controller;
 
 import com.example.galaxyproyecto.model.Programming;
 import com.example.galaxyproyecto.model.Programming;
+import com.example.galaxyproyecto.model.Programming;
 import com.example.galaxyproyecto.model.modelassembler.ProgrammingModelAssembler;
 import com.example.galaxyproyecto.service.IProgrammingService;
 import com.example.galaxyproyecto.service.IProgrammingService;
@@ -49,19 +50,19 @@ public class ProgrammingController {
     }
 
 
-    @PostMapping(/*path="/add", consumes={MediaType.APPLICATION_JSON_VALUE}*/)
-    public Programming add(@RequestBody Programming programming) {
-        return programmingService.add(programming);
+    @PostMapping
+    public EntityModel<Programming> add(@RequestBody Programming programming) {
+        return programmingModelAssembler.toModel(programmingService.add(programming));
     }
 
     @PutMapping("/{id}")
-    public Programming update(@PathVariable("id") Integer id, @RequestBody Programming programming) {
+    public EntityModel<Programming> update(@PathVariable("id") Integer id, @RequestBody Programming programming) {
         programming.setIdProgramming(id);
-        return programmingService.update(programming);
+        return programmingModelAssembler.toModel(programmingService.update(programming));
     }
 
     @DeleteMapping("/{id}")
-    public Programming delete(@PathVariable("id") Integer id) {
-        return programmingService.delete(id);
+    public EntityModel<Programming> delete(@PathVariable("id") Integer id) {
+        return programmingModelAssembler.toModel(programmingService.delete(id));
     }
 }
